@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# carywang.com
 
-## Getting Started
+Personal website — self-introduction, portfolio links, and a text blog.
 
-First, run the development server:
+Built with [Next.js](https://nextjs.org) (App Router) and Tailwind CSS, deployed
+on [Vercel](https://vercel.com). The background is a dynamic blue "haze" that
+follows the cursor and shifts shade with horizontal position (see
+`src/components/BlueHaze.tsx`).
+
+## Getting started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open <http://localhost:3000>.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Writing posts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Posts live in `content/posts/` as Markdown files. See `content/posts/README.md`
+for the frontmatter format and how to link a post to Substack.
 
-## Learn More
+## Deploying
 
-To learn more about Next.js, take a look at the following resources:
+1. Push this repo to GitHub (already done).
+2. On Vercel: **Add New → Project → Import** this repo.
+3. Framework auto-detects as Next.js — click **Deploy**.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Every push to `main` then deploys automatically.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Customizing
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Intro + links** — edit `src/app/page.tsx`.
+- **Site title / meta** — edit `src/app/layout.tsx`.
+- **Background colors** — edit `src/components/BlueHaze.tsx` (gradients) and
+  `src/app/globals.css` (base colors + typography).
+- **Resume** — drop `resume.pdf` into `public/` (the home page links to
+  `/resume.pdf`).

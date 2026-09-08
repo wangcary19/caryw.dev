@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0a1526;
+  --foreground: #e8eef8;
 }
 
 @theme inline {
@@ -12,15 +12,94 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  min-height: 100%;
 }
 
 body {
-  background: var(--background);
+  background: #0a1526;
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+}
+
+/* Full-screen dynamic background (see src/components/BlueHaze.tsx) */
+.blue-haze {
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  background: linear-gradient(180deg, #08111f 0%, #0d1c36 45%, #0a1830 100%);
+}
+
+/* Article / markdown typography */
+.article {
+  line-height: 1.75;
+  color: #dbe5f3;
+}
+.article h1,
+.article h2,
+.article h3 {
+  color: #f4f8ff;
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 2rem 0 0.75rem;
+}
+.article h1 {
+  font-size: 1.75rem;
+}
+.article h2 {
+  font-size: 1.375rem;
+}
+.article h3 {
+  font-size: 1.125rem;
+}
+.article p {
+  margin: 1rem 0;
+}
+.article a {
+  color: #7cb3ff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.article a:hover {
+  color: #a8caff;
+}
+.article ul,
+.article ol {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+.article li {
+  margin: 0.4rem 0;
+}
+.article blockquote {
+  border-left: 3px solid #2f4f7f;
+  padding-left: 1rem;
+  margin: 1.25rem 0;
+  color: #b9c8de;
+  font-style: italic;
+}
+.article code {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.9em;
+  background: rgba(96, 165, 250, 0.12);
+  padding: 0.1rem 0.35rem;
+  border-radius: 0.3rem;
+}
+.article pre {
+  background: rgba(8, 17, 31, 0.6);
+  border: 1px solid rgba(96, 165, 250, 0.18);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 1.25rem 0;
+}
+.article pre code {
+  background: transparent;
+  padding: 0;
+}
+.article hr {
+  border: none;
+  border-top: 1px solid rgba(148, 184, 232, 0.2);
+  margin: 2rem 0;
 }
