@@ -222,3 +222,25 @@ body {
   border-top: 1px solid rgba(148, 184, 232, 0.2);
   margin: 2rem 0;
 }
+
+/* Inline article expand animation */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-article {
+  animation: slideIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-article {
+    animation: none;
+  }
+}
