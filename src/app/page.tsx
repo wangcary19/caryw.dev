@@ -68,13 +68,8 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="mt-24">
-        <h2 className="text-sm font-light uppercase tracking-widest text-white/50">
-          Writing
-        </h2>
-        <div className="mt-8">
-          <WritingSection posts={posts} />
-        </div>
+      <section className="mt-10">
+        <WritingSection posts={posts} />
       </section>
 
       <footer className="mt-24 border-t border-white/10 pt-6 text-xs leading-6 text-white/40">

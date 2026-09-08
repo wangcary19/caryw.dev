@@ -54,10 +54,6 @@ body {
   animation: kenburns 45s ease-in-out infinite alternate;
 }
 
-.live-bg:not(.is-active) .live-bg-image {
-  animation-play-state: paused;
-}
-
 .live-bg.is-active .live-bg-image {
   filter: blur(16px) brightness(0.5);
 }
