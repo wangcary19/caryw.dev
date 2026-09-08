@@ -45,10 +45,7 @@ export default function LiveBackground() {
   }, []);
 
   return (
-    <div
-      className={`live-bg ${active ? "is-active" : ""}`}
-      aria-hidden="true"
-    >
+    <div className={`live-bg ${active ? "is-active" : ""}`} aria-hidden="true">
       <div className="live-bg-image" />
     </div>
   );

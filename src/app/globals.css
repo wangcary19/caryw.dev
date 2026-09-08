@@ -59,7 +59,7 @@ body {
 }
 
 .live-bg.is-active .live-bg-image {
-  filter: blur(16px);
+  filter: blur(16px) brightness(0.5);
 }
 
 @keyframes kenburns {
