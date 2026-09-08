@@ -1,14 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import TopoCanvas from "./TopoCanvas";
 
 const IDLE_MS = 3000;
 
 /**
- * High-res glacier photo with a faint, slow-moving holographic sheen layered
- * on top. The scene blurs and darkens while the user is interacting.
+ * Full-screen animated background: a WebGL iridescent topographic-map shader
+ * that flows over time. Falls back to the high-res glacier photo when WebGL
+ * is unavailable. Blurs + darkens while the user is interacting.
  *
- * Image: "Svitjordbreen on Svalbard calving" — photo by AWeith,
+ * Photo fallback: "Svitjordbreen on Svalbard calving" — AWeith,
  * CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0),
  * via Wikimedia Commons. Served from /background.jpg (3840×2160).
  */
@@ -48,7 +50,7 @@ export default function LiveBackground() {
     >
       <div className="live-bg-scene">
         <div className="live-bg-image" />
-        <div className="live-bg-sheen" />
+        <TopoCanvas className="live-bg-canvas" />
       </div>
     </div>
   );
