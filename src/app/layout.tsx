@@ -15,7 +15,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Cary Wang",
-  description: "Personal website and writing of Cary Wang — software engineer.",
+  description:
+    "Cary “Cart” Wang — developer from New York City with a love for languages both computer and human.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
