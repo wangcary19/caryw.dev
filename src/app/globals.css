@@ -20,7 +20,8 @@ body {
 body {
   background: #0a1526;
   color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo,
+    Consolas, monospace;
 }
 
 /* Full-screen dynamic background (see src/components/BlueHaze.tsx) */

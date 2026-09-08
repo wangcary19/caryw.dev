@@ -49,7 +49,10 @@ async function main() {
   const rawItems = doc?.rss?.channel?.item ?? [];
   const items = Array.isArray(rawItems) ? rawItems : [rawItems];
 
-  const td = new TurndownService({ headingStyle: "atx", codeBlockStyle: "fenced" });
+  const td = new TurndownService({
+    headingStyle: "atx",
+    codeBlockStyle: "fenced",
+  });
 
   for (const it of items) {
     const title = cdata(it.title).trim();

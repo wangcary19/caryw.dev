@@ -3,7 +3,7 @@
 import { useState } from "react";
 import type { ComponentType, ReactNode } from "react";
 import ReactMarkdown from "react-markdown";
-import { GitHubIcon, LinkedInIcon, MailIcon } from "./icons";
+import { GitHubIcon, LinkedInIcon, MailIcon, SubstackIcon } from "./icons";
 import type { IconProps } from "./icons";
 import type { Post } from "@/lib/types";
 import { formatDate } from "@/lib/types";
@@ -20,6 +20,11 @@ const socialLinks: {
     Icon: LinkedInIcon,
   },
   { label: "Email", href: "mailto:wangcary19@gmail.com", Icon: MailIcon },
+  {
+    label: "Substack",
+    href: "https://wangcary.substack.com/",
+    Icon: SubstackIcon,
+  },
 ];
 
 type View = "home" | "writing";
@@ -57,11 +62,7 @@ export default function Site({ posts }: { posts: Post[] }) {
       {view === "home" ? (
         <HomeView />
       ) : (
-        <WritingView
-          posts={posts}
-          current={current}
-          onSelect={setSelected}
-        />
+        <WritingView posts={posts} current={current} onSelect={setSelected} />
       )}
     </div>
   );
@@ -80,7 +81,9 @@ function TabButton({
     <button
       onClick={onClick}
       className={`rounded-full px-4 py-1.5 text-sm font-medium transition ${
-        active ? "bg-blue-400/20 text-white" : "text-blue-200/60 hover:text-white"
+        active
+          ? "bg-blue-400/20 text-white"
+          : "text-blue-200/60 hover:text-white"
       }`}
     >
       {children}
@@ -108,10 +111,10 @@ function HomeView() {
             target={href.startsWith("http") ? "_blank" : undefined}
             rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
             aria-label={label}
-            className="flex items-center gap-2 rounded-full border border-blue-300/20 bg-blue-400/5 px-4 py-2 text-sm font-medium text-blue-100 transition hover:border-blue-300/50 hover:bg-blue-400/15"
+            title={label}
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-blue-300/20 bg-blue-400/5 text-blue-100 transition hover:border-blue-300/50 hover:bg-blue-400/15 hover:text-white"
           >
-            <Icon className="h-4 w-4" />
-            <span>{label}</span>
+            <Icon className="h-5 w-5" />
           </a>
         ))}
       </div>
