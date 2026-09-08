@@ -47,7 +47,12 @@ float fbm(vec2 p) {
 
 void main() {
   vec2 p = gl_FragCoord.xy / u_res.y;
-  float t = u_time * 0.04;
+  float t = u_time * 0.006;
+
+  // cursor displaces the field — contour lines move around the pointer
+  vec2 mdir = p - u_mouse;
+  float mw = exp(-dot(mdir, mdir) * 5.0) * u_mouse_strength;
+  p += mdir * mw * 0.45;
 
   // flowing domain warp
   vec2 q = vec2(fbm(p + t), fbm(p + vec2(5.2, 1.3) - t * 0.5));
@@ -56,10 +61,6 @@ void main() {
     fbm(p + 2.0 * q + vec2(8.3, 2.8) - t * 0.15)
   );
   float h = fbm(p + 1.6 * r);
-
-  // mouse "impact" — push the surface up under the cursor
-  float md = distance(p, u_mouse);
-  h += exp(-md * md * 6.0) * u_mouse_strength * 0.22;
 
   // click ripples — expanding waves
   for (int i = 0; i < 4; i++) {
@@ -77,17 +78,22 @@ void main() {
 
   vec3 elev = mix(steel, sky, smoothstep(0.0, 1.0, h));
 
-  // very thin contour lines at band boundaries
+  // contour lines: thin intermediate + thicker index contours (every 5th)
   float levels = 24.0;
-  float f = fract(h * levels);
+  float ci = h * levels;
+  float f = fract(ci);
+  float idx = floor(ci + 0.5);
+  float isIndex = 1.0 - step(0.5, mod(idx, 5.0));
+
+  float w = mix(0.008, 0.03, isIndex);
   float line = clamp(
-    smoothstep(0.01, 0.0, f) + smoothstep(0.01, 0.0, 1.0 - f),
+    smoothstep(w, 0.0, f) + smoothstep(w, 0.0, 1.0 - f),
     0.0,
     1.0
   );
 
   vec3 col = mix(navy, elev, 0.10);
-  col += sky * line * 0.55;
+  col += sky * line * mix(0.4, 0.7, isIndex);
 
   // soft vignette
   vec2 uv = gl_FragCoord.xy / u_res.xy;
