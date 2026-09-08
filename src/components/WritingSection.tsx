@@ -24,8 +24,8 @@ export default function WritingSection({ posts }: { posts: Post[] }) {
               onClick={() => select(post)}
               className={`corner-frame group border p-6 text-left transition ${
                 active
-                  ? "border-blue-300/50 bg-blue-400/15"
-                  : "border-blue-300/15 bg-blue-400/5 hover:border-blue-300/40 hover:bg-blue-400/10"
+                  ? "border-blue-300/50 bg-[#0c1a2f]"
+                  : "border-blue-300/15 bg-blue-400/5 hover:border-blue-300/40 hover:bg-[#0c1a2f]"
               }`}
             >
               <div className="flex items-start justify-between gap-3">
@@ -57,7 +57,7 @@ export default function WritingSection({ posts }: { posts: Post[] }) {
       {/* Inline article, expanded to the right */}
       <div className="min-w-0 flex-1">
         {current ? (
-          <article key={current.slug} className="animate-article">
+          <article key={current.slug} className="animate-article corner-frame border border-blue-300/20 bg-[#0c1a2f] p-6 sm:p-8">
             <div className="flex items-start justify-between gap-4">
               <h2 className="text-2xl font-light tracking-tight text-white sm:text-3xl">
                 {current.title}
@@ -66,7 +66,7 @@ export default function WritingSection({ posts }: { posts: Post[] }) {
                 type="button"
                 onClick={() => select(current)}
                 aria-label="Close article"
-                className="corner-frame corner-frame-sm flex h-9 w-9 shrink-0 items-center justify-center border border-blue-300/15 text-white/70 transition hover:bg-blue-400/10 hover:text-white"
+                className="corner-frame corner-frame-sm flex h-9 w-9 shrink-0 items-center justify-center border border-blue-300/15 text-white/70 transition hover:bg-[#163451] hover:text-white"
               >
                 ✕
               </button>
@@ -79,7 +79,7 @@ export default function WritingSection({ posts }: { posts: Post[] }) {
                 href={current.substack}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="corner-frame corner-frame-sm mt-4 inline-block border border-blue-300/25 bg-blue-400/10 px-4 py-2 text-sm font-normal text-white/80 transition hover:bg-blue-400/20 hover:text-white"
+                className="corner-frame corner-frame-sm mt-4 inline-block border border-blue-300/25 bg-blue-400/10 px-4 py-2 text-sm font-normal text-white/80 transition hover:bg-[#163451] hover:text-white"
               >
                 Read on Substack →
               </a>

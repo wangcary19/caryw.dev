@@ -60,7 +60,7 @@ export default function Home() {
               download={download}
               aria-label={label}
               title={label}
-              className="corner-frame corner-frame-sm flex h-11 w-11 items-center justify-center border border-blue-300/20 bg-blue-400/5 text-white/80 transition hover:border-blue-300/50 hover:bg-blue-400/15 hover:text-white"
+              className="corner-frame corner-frame-sm flex h-11 w-11 items-center justify-center border border-blue-300/20 bg-blue-400/5 text-white/80 transition hover:border-blue-300/50 hover:bg-[#0c1a2f] hover:text-white"
             >
               <Icon className="h-5 w-5" />
             </a>
