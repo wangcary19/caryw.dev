@@ -34,7 +34,7 @@ export default function Home() {
   return (
     <main className="golden min-h-screen pb-24 pt-16 sm:pt-24">
       <section>
-        <h1 className="text-4xl font-semibold tracking-tight text-white sm:text-5xl">
+        <h1 className="text-4xl font-light tracking-tight text-white sm:text-5xl">
           ✌️ Hi · 你好 · Salut · 今日は
         </h1>
         <p className="mt-6 max-w-2xl text-lg leading-8 text-blue-100/85">
@@ -52,7 +52,7 @@ export default function Home() {
               rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
               aria-label={label}
               title={label}
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-blue-300/20 bg-blue-400/5 text-blue-100 transition hover:border-blue-300/50 hover:bg-blue-400/15 hover:text-white"
+              className="corner-frame corner-frame-sm flex h-11 w-11 items-center justify-center border border-blue-300/20 bg-blue-400/5 text-blue-100 transition hover:border-blue-300/50 hover:bg-blue-400/15 hover:text-white"
             >
               <Icon className="h-5 w-5" />
             </a>
@@ -61,7 +61,7 @@ export default function Home() {
       </section>
 
       <section className="mt-24">
-        <h2 className="text-sm font-semibold uppercase tracking-widest text-blue-200/60">
+        <h2 className="text-sm font-light uppercase tracking-widest text-blue-200/60">
           Writing
         </h2>
         <div className="mt-8">

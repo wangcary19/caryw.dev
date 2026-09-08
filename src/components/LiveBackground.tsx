@@ -1,22 +1,25 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useReading } from "./reading-context";
 
-const VIDEO_SRC = "/background.mp4";
 const IDLE_MS = 3000;
 
 /**
- * Live video background (like a macOS live wallpaper). Plays only while the
- * tab is visible and the user is active; pauses after IDLE_MS of inactivity.
- * Blurs gently when an article is expanded.
+ * High-resolution "live wallpaper" background.
+ *
+ * Image: "Svitjordbreen on Svalbard calving" — photo by AWeith,
+ * CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0),
+ * via Wikimedia Commons. Served from /background.jpg (3840×2160).
+ *
+ * A slow Ken Burns pan/zoom gives it subtle motion like a macOS live photo.
+ * Motion only runs while the tab is visible and the user is active, and the
+ * image blurs gently when an article is expanded.
  */
 export default function LiveBackground() {
   const { isReading } = useReading();
-  const videoRef = useRef<HTMLVideoElement>(null);
   const [hidden, setHidden] = useState(false);
   const [idle, setIdle] = useState(false);
-  const [failed, setFailed] = useState(false);
 
   const active = !hidden && !idle;
 
@@ -43,35 +46,12 @@ export default function LiveBackground() {
     };
   }, []);
 
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    if (active) {
-      video.play().catch(() => {});
-    } else {
-      video.pause();
-    }
-  }, [active]);
-
   return (
     <div
-      className={`live-bg ${isReading ? "is-blurred" : ""}`}
+      className={`live-bg ${isReading ? "is-blurred" : ""} ${active ? "is-live" : ""}`}
       aria-hidden="true"
     >
-      {!failed && (
-        <video
-          ref={videoRef}
-          src={VIDEO_SRC}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          disablePictureInPicture
-          onError={() => setFailed(true)}
-          className="live-bg-video"
-        />
-      )}
+      <div className="live-bg-image" />
     </div>
   );
 }

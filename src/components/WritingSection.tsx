@@ -27,18 +27,18 @@ export default function WritingSection({ posts }: { posts: Post[] }) {
               key={post.slug}
               type="button"
               onClick={() => select(post)}
-              className={`group rounded-2xl border p-6 text-left transition ${
+              className={`corner-frame group border p-6 text-left transition ${
                 active
                   ? "border-blue-300/50 bg-blue-400/15"
-                  : "border-blue-300/15 bg-blue-400/5 hover:-translate-y-0.5 hover:border-blue-300/40 hover:bg-blue-400/10"
+                  : "border-blue-300/15 bg-blue-400/5 hover:border-blue-300/40 hover:bg-blue-400/10"
               }`}
             >
               <div className="flex items-start justify-between gap-3">
-                <h3 className="text-lg font-semibold leading-snug tracking-tight text-white group-hover:text-blue-100">
+                <h3 className="text-lg font-light leading-snug tracking-tight text-white group-hover:text-blue-100">
                   {post.title}
                 </h3>
                 {post.substack && (
-                  <span className="shrink-0 rounded-full bg-blue-500/15 px-2 py-0.5 text-xs font-medium text-blue-300">
+                  <span className="shrink-0 border border-blue-300/20 bg-blue-500/15 px-2 py-0.5 text-xs font-normal text-blue-300">
                     Substack
                   </span>
                 )}
@@ -51,7 +51,7 @@ export default function WritingSection({ posts }: { posts: Post[] }) {
                   {post.description}
                 </p>
               )}
-              <span className="mt-5 inline-block text-sm font-medium text-blue-300 transition group-hover:text-blue-100">
+              <span className="mt-5 inline-block text-sm font-normal text-blue-300 transition group-hover:text-blue-100">
                 {active ? "Reading →" : "Read →"}
               </span>
             </button>
@@ -64,14 +64,14 @@ export default function WritingSection({ posts }: { posts: Post[] }) {
         {current ? (
           <article key={current.slug} className="animate-article">
             <div className="flex items-start justify-between gap-4">
-              <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+              <h2 className="text-2xl font-light tracking-tight text-white sm:text-3xl">
                 {current.title}
               </h2>
               <button
                 type="button"
                 onClick={() => select(current)}
                 aria-label="Close article"
-                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-blue-300/15 text-blue-200/70 transition hover:bg-blue-400/10 hover:text-white"
+                className="corner-frame corner-frame-sm flex h-9 w-9 shrink-0 items-center justify-center border border-blue-300/15 text-blue-200/70 transition hover:bg-blue-400/10 hover:text-white"
               >
                 ✕
               </button>
@@ -84,7 +84,7 @@ export default function WritingSection({ posts }: { posts: Post[] }) {
                 href={current.substack}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-4 inline-block rounded-full border border-blue-300/25 bg-blue-400/10 px-4 py-2 text-sm font-medium text-blue-200 transition hover:bg-blue-400/20"
+                className="corner-frame corner-frame-sm mt-4 inline-block border border-blue-300/25 bg-blue-400/10 px-4 py-2 text-sm font-normal text-blue-200 transition hover:bg-blue-400/20"
               >
                 Read on Substack →
               </a>
@@ -94,7 +94,7 @@ export default function WritingSection({ posts }: { posts: Post[] }) {
             </div>
           </article>
         ) : (
-          <div className="flex min-h-[200px] items-center justify-center rounded-2xl border border-dashed border-blue-300/15 text-sm text-blue-200/40">
+          <div className="flex min-h-[200px] items-center justify-center border border-dashed border-blue-300/15 text-sm text-blue-200/40">
             Select an article to read
           </div>
         )}

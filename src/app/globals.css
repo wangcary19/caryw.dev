@@ -35,7 +35,7 @@ body {
   padding-right: clamp(1.5rem, 3.82vw, 5rem);
 }
 
-/* Live video background */
+/* Live wallpaper background (4K image + slow Ken Burns) */
 .live-bg {
   position: fixed;
   inset: 0;
@@ -44,18 +44,60 @@ body {
   background: linear-gradient(180deg, #081120 0%, #0c2038 50%, #071425 100%);
 }
 
-.live-bg-video {
+.live-bg-image {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: filter 0.7s ease, transform 0.7s ease;
+  background-image: url("/background.jpg");
+  background-size: cover;
+  background-position: center;
+  transition: filter 0.7s ease;
+  animation: kenburns 45s ease-in-out infinite alternate;
 }
 
-.live-bg.is-blurred .live-bg-video {
+.live-bg:not(.is-live) .live-bg-image {
+  animation-play-state: paused;
+}
+
+.live-bg.is-blurred .live-bg-image {
   filter: blur(8px);
-  transform: scale(1.12);
+}
+
+@keyframes kenburns {
+  from {
+    transform: scale(1.05) translate(0, 0);
+  }
+  to {
+    transform: scale(1.16) translate(2%, -1.5%);
+  }
+}
+
+/* Square buttons with highlighted corners */
+.corner-frame {
+  position: relative;
+  border-radius: 0;
+  --corner-size: 11px;
+  --corner-color: rgba(140, 190, 255, 0.9);
+}
+
+.corner-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--corner-color), var(--corner-color)) left top / var(--corner-size) 1px,
+    linear-gradient(var(--corner-color), var(--corner-color)) left top / 1px var(--corner-size),
+    linear-gradient(var(--corner-color), var(--corner-color)) right top / var(--corner-size) 1px,
+    linear-gradient(var(--corner-color), var(--corner-color)) right top / 1px var(--corner-size),
+    linear-gradient(var(--corner-color), var(--corner-color)) left bottom / var(--corner-size) 1px,
+    linear-gradient(var(--corner-color), var(--corner-color)) left bottom / 1px var(--corner-size),
+    linear-gradient(var(--corner-color), var(--corner-color)) right bottom / var(--corner-size) 1px,
+    linear-gradient(var(--corner-color), var(--corner-color)) right bottom / 1px var(--corner-size);
+  background-repeat: no-repeat;
+}
+
+.corner-frame-sm {
+  --corner-size: 7px;
 }
 
 /* Article / markdown typography */
@@ -67,7 +109,7 @@ body {
 .article h2,
 .article h3 {
   color: #f4f8ff;
-  font-weight: 600;
+  font-weight: 300;
   line-height: 1.25;
   margin: 2rem 0 0.75rem;
 }
@@ -148,7 +190,8 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-article {
+  .animate-article,
+  .live-bg-image {
     animation: none;
   }
 }
