@@ -35,7 +35,7 @@ body {
   padding-right: clamp(1.5rem, 3.82vw, 5rem);
 }
 
-/* Time-of-day "dynamic wallpaper" background (macOS-style) */
+/* Glacier photo + faint holographic sheen */
 .live-bg {
   position: fixed;
   inset: 0;
@@ -61,53 +61,39 @@ body {
   background-image: url("/background.jpg");
   background-size: cover;
   background-position: center;
-  transition: filter 3s ease;
 }
 
-.live-bg-tint {
+.live-bg-sheen {
   position: absolute;
-  inset: 0;
+  inset: -20%;
   pointer-events: none;
-  opacity: 0;
-  transition: opacity 3s ease, background 3s ease;
+  opacity: 0.4;
+  mix-blend-mode: overlay;
+  background:
+    radial-gradient(40% 40% at 20% 30%, rgba(96, 165, 250, 0.9), transparent 70%),
+    radial-gradient(45% 45% at 75% 60%, rgba(34, 211, 238, 0.8), transparent 70%),
+    radial-gradient(40% 40% at 50% 85%, rgba(167, 139, 250, 0.8), transparent 70%);
+  animation:
+    sheen-drift 40s ease-in-out infinite alternate,
+    sheen-hue 60s linear infinite;
 }
 
-/* Time-of-day grading */
-.live-bg.tod-night .live-bg-image {
-  filter: brightness(0.55) saturate(0.75);
-}
-.live-bg.tod-dawn .live-bg-image {
-  filter: brightness(0.95) saturate(1.1) sepia(0.15);
-}
-.live-bg.tod-day .live-bg-image {
-  filter: none;
-}
-.live-bg.tod-sunset .live-bg-image {
-  filter: brightness(0.95) saturate(1.2) sepia(0.25);
-}
-.live-bg.tod-dusk .live-bg-image {
-  filter: brightness(0.8) saturate(0.9);
+@keyframes sheen-drift {
+  from {
+    transform: translate3d(-2%, -1.5%, 0) scale(1);
+  }
+  to {
+    transform: translate3d(2%, 1.5%, 0) scale(1.08);
+  }
 }
 
-/* Time-of-day tint overlays */
-.live-bg.tod-night .live-bg-tint {
-  opacity: 1;
-  background: linear-gradient(180deg, rgba(8, 14, 34, 0.72), rgba(3, 8, 20, 0.82));
-}
-.live-bg.tod-dawn .live-bg-tint {
-  opacity: 1;
-  background: linear-gradient(180deg, rgba(255, 150, 90, 0.22), rgba(150, 90, 170, 0.14));
-}
-.live-bg.tod-day .live-bg-tint {
-  opacity: 0;
-}
-.live-bg.tod-sunset .live-bg-tint {
-  opacity: 1;
-  background: linear-gradient(180deg, rgba(255, 120, 60, 0.28), rgba(180, 80, 130, 0.18));
-}
-.live-bg.tod-dusk .live-bg-tint {
-  opacity: 1;
-  background: linear-gradient(180deg, rgba(90, 60, 170, 0.3), rgba(35, 40, 110, 0.34));
+@keyframes sheen-hue {
+  from {
+    filter: hue-rotate(0deg);
+  }
+  to {
+    filter: hue-rotate(360deg);
+  }
 }
 
 /* Square buttons with highlighted corners */
@@ -229,7 +215,8 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-article {
+  .animate-article,
+  .live-bg-sheen {
     animation: none;
   }
 }
