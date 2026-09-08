@@ -44,10 +44,7 @@ export default function LiveBackground() {
   }, []);
 
   return (
-    <div
-      className={`live-bg ${active ? "is-active" : ""}`}
-      aria-hidden="true"
-    >
+    <div className={`live-bg ${active ? "is-active" : ""}`} aria-hidden="true">
       <div className="live-bg-scene">
         <div className="live-bg-image" />
         <TopoCanvas className="live-bg-canvas" />

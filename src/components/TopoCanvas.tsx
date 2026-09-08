@@ -45,13 +45,9 @@ float fbm(vec2 p) {
   return v;
 }
 
-vec3 palette(float t) {
-  return 0.5 + 0.5 * cos(6.28318 * (t + vec3(0.0, 0.33, 0.67)));
-}
-
 void main() {
   vec2 p = gl_FragCoord.xy / u_res.y;
-  float t = u_time * 0.12;
+  float t = u_time * 0.04;
 
   // flowing domain warp
   vec2 q = vec2(fbm(p + t), fbm(p + vec2(5.2, 1.3) - t * 0.5));
@@ -63,32 +59,39 @@ void main() {
 
   // mouse "impact" — push the surface up under the cursor
   float md = distance(p, u_mouse);
-  h += exp(-md * md * 10.0) * u_mouse_strength * 0.4;
+  h += exp(-md * md * 6.0) * u_mouse_strength * 0.22;
 
   // click ripples — expanding waves
   for (int i = 0; i < 4; i++) {
     float age = u_time - u_ripple_t[i];
-    if (age > 0.0 && age < 5.0) {
+    if (age > 0.0 && age < 8.0) {
       float rd = distance(p, u_ripples[i]);
-      h += sin(rd * 45.0 - age * 7.0) * exp(-rd * 3.0 - age * 1.4) * 0.12;
+      h += sin(rd * 28.0 - age * 2.4) * exp(-rd * 2.4 - age * 0.6) * 0.06;
     }
   }
 
-  // topographic contour lines
-  float levels = 22.0;
+  // relaxing blue palette (matches the site's navy + light-blue theme)
+  vec3 navy = vec3(0.04, 0.08, 0.15);
+  vec3 steel = vec3(0.20, 0.38, 0.60);
+  vec3 sky = vec3(0.48, 0.68, 0.95);
+
+  vec3 elev = mix(steel, sky, smoothstep(0.0, 1.0, h));
+
+  // very thin contour lines at band boundaries
+  float levels = 24.0;
   float f = fract(h * levels);
-  float line = smoothstep(0.09, 0.0, abs(f - 0.5));
+  float line = clamp(
+    smoothstep(0.01, 0.0, f) + smoothstep(0.01, 0.0, 1.0 - f),
+    0.0,
+    1.0
+  );
 
-  vec3 elev = palette(h * 0.6 + t * 0.03);
-  vec3 base = vec3(0.02, 0.04, 0.09);
+  vec3 col = mix(navy, elev, 0.10);
+  col += sky * line * 0.55;
 
-  vec3 col = mix(base, elev, 0.28);
-  col += elev * line * 1.6;
-
-  // cool cast + subtle vignette
-  col *= vec3(0.82, 0.9, 1.05);
+  // soft vignette
   vec2 uv = gl_FragCoord.xy / u_res.xy;
-  col *= 1.0 - 0.4 * dot(uv - 0.5, uv - 0.5) * 2.0;
+  col *= 1.0 - 0.25 * dot(uv - 0.5, uv - 0.5) * 2.0;
 
   gl_FragColor = vec4(col, 1.0);
 }
@@ -97,7 +100,7 @@ void main() {
 const MAX_RIPPLES = 4;
 
 /**
- * Full-screen WebGL canvas rendering an animated, iridescent topographic map.
+ * Full-screen WebGL canvas rendering an animated blue topographic map.
  * The cursor pushes the surface, and taps on buttons/links send ripples
  * through it. If WebGL is unavailable the canvas stays transparent and the
  * parent's fallback (glacier photo) shows through.
@@ -202,7 +205,7 @@ export default function TopoCanvas({ className }: { className?: string }) {
     document.addEventListener("pointerdown", onPointerDown, true);
 
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
       const w = Math.max(1, Math.floor(canvas.clientWidth * dpr));
       const h = Math.max(1, Math.floor(canvas.clientHeight * dpr));
       if (canvas.width !== w || canvas.height !== h) {
