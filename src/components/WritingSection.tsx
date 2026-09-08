@@ -4,9 +4,17 @@ import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import type { Post } from "@/lib/types";
 import { formatDate } from "@/lib/types";
+import { useReading } from "./reading-context";
 
 export default function WritingSection({ posts }: { posts: Post[] }) {
   const [current, setCurrent] = useState<Post | null>(null);
+  const { setReading } = useReading();
+
+  const select = (post: Post) => {
+    const next = post.slug === current?.slug ? null : post;
+    setCurrent(next);
+    setReading(next !== null);
+  };
 
   return (
     <div className="flex flex-col gap-10 lg:flex-row lg:gap-12">
@@ -18,7 +26,7 @@ export default function WritingSection({ posts }: { posts: Post[] }) {
             <button
               key={post.slug}
               type="button"
-              onClick={() => setCurrent(post)}
+              onClick={() => select(post)}
               className={`group rounded-2xl border p-6 text-left transition ${
                 active
                   ? "border-blue-300/50 bg-blue-400/15"
@@ -55,9 +63,19 @@ export default function WritingSection({ posts }: { posts: Post[] }) {
       <div className="min-w-0 flex-1">
         {current ? (
           <article key={current.slug} className="animate-article">
-            <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-              {current.title}
-            </h2>
+            <div className="flex items-start justify-between gap-4">
+              <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+                {current.title}
+              </h2>
+              <button
+                type="button"
+                onClick={() => select(current)}
+                aria-label="Close article"
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-blue-300/15 text-blue-200/70 transition hover:bg-blue-400/10 hover:text-white"
+              >
+                ✕
+              </button>
+            </div>
             <time className="mt-2 block text-sm text-blue-200/50">
               {formatDate(current.date)}
             </time>

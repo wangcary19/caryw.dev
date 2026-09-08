@@ -35,119 +35,27 @@ body {
   padding-right: clamp(1.5rem, 3.82vw, 5rem);
 }
 
-/* Holographic gel background (see src/components/BlueHaze.tsx) */
-.holo-bg {
+/* Live video background */
+.live-bg {
   position: fixed;
   inset: 0;
   z-index: -10;
   overflow: hidden;
-  background: radial-gradient(
-    120% 120% at 50% 0%,
-    #0a1a3a 0%,
-    #060d1f 45%,
-    #04080f 100%
-  );
+  background: linear-gradient(180deg, #081120 0%, #0c2038 50%, #071425 100%);
 }
 
-.holo-blobs {
+.live-bg-video {
   position: absolute;
   inset: 0;
-  mix-blend-mode: screen;
-  animation: hue-shift 45s linear infinite;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: filter 0.7s ease, transform 0.7s ease;
 }
 
-.holo-blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-}
-
-.blob-1 {
-  width: 55vw;
-  height: 55vw;
-  top: -15%;
-  left: -10%;
-  background: radial-gradient(
-    circle at 30% 30%,
-    rgba(59, 130, 246, 0.55),
-    rgba(59, 130, 246, 0) 70%
-  );
-  animation: drift-1 28s ease-in-out infinite;
-}
-
-.blob-2 {
-  width: 60vw;
-  height: 60vw;
-  bottom: -20%;
-  right: -10%;
-  background: radial-gradient(
-    circle at 60% 60%,
-    rgba(34, 211, 238, 0.45),
-    rgba(34, 211, 238, 0) 70%
-  );
-  animation: drift-2 36s ease-in-out infinite;
-}
-
-.blob-3 {
-  width: 50vw;
-  height: 50vw;
-  top: 30%;
-  left: 40%;
-  background: radial-gradient(
-    circle at 50% 50%,
-    rgba(139, 92, 246, 0.35),
-    rgba(139, 92, 246, 0) 70%
-  );
-  animation: drift-3 32s ease-in-out infinite;
-}
-
-@keyframes drift-1 {
-  0%,
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
-  33% {
-    transform: translate(10vw, 12vh) scale(1.15);
-  }
-  66% {
-    transform: translate(-4vw, 20vh) scale(0.92);
-  }
-}
-
-@keyframes drift-2 {
-  0%,
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
-  50% {
-    transform: translate(-12vw, -10vh) scale(1.2);
-  }
-}
-
-@keyframes drift-3 {
-  0%,
-  100% {
-    transform: translate(0, 0) scale(1) rotate(0deg);
-  }
-  50% {
-    transform: translate(6vw, -14vh) scale(1.1) rotate(20deg);
-  }
-}
-
-@keyframes hue-shift {
-  0% {
-    filter: hue-rotate(0deg);
-  }
-  100% {
-    filter: hue-rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .holo-blobs,
-  .holo-blob {
-    animation: none;
-  }
+.live-bg.is-blurred .live-bg-video {
+  filter: blur(8px);
+  transform: scale(1.12);
 }
 
 /* Article / markdown typography */
