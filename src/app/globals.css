@@ -17,6 +17,10 @@ body {
   min-height: 100%;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background: #0a1526;
   color: var(--foreground);
