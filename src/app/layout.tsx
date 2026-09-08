@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { ReadingProvider } from "@/components/reading-context";
 import LiveBackground from "@/components/LiveBackground";
 import "./globals.css";
 
@@ -27,10 +26,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} antialiased`}
     >
       <body className="min-h-screen">
-        <ReadingProvider>
-          <LiveBackground />
-          {children}
-        </ReadingProvider>
+        <LiveBackground />
+        {children}
       </body>
     </html>
   );

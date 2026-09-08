@@ -2,7 +2,7 @@
 
 :root {
   --background: #0a1526;
-  --foreground: #e8eef8;
+  --foreground: #ffffff;
 }
 
 @theme inline {
@@ -54,12 +54,12 @@ body {
   animation: kenburns 45s ease-in-out infinite alternate;
 }
 
-.live-bg:not(.is-live) .live-bg-image {
+.live-bg:not(.is-active) .live-bg-image {
   animation-play-state: paused;
 }
 
-.live-bg.is-blurred .live-bg-image {
-  filter: blur(8px);
+.live-bg.is-active .live-bg-image {
+  filter: blur(16px);
 }
 
 @keyframes kenburns {
@@ -103,12 +103,12 @@ body {
 /* Article / markdown typography */
 .article {
   line-height: 1.75;
-  color: #dbe5f3;
+  color: #eef3fa;
 }
 .article h1,
 .article h2,
 .article h3 {
-  color: #f4f8ff;
+  color: #ffffff;
   font-weight: 300;
   line-height: 1.25;
   margin: 2rem 0 0.75rem;
@@ -145,7 +145,7 @@ body {
   border-left: 3px solid #2f4f7f;
   padding-left: 1rem;
   margin: 1.25rem 0;
-  color: #b9c8de;
+  color: #c8d4e6;
   font-style: italic;
 }
 .article code {

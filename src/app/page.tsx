@@ -34,16 +34,17 @@ export default function Home() {
   return (
     <main className="golden min-h-screen pb-24 pt-16 sm:pt-24">
       <section>
-        <h1 className="text-4xl font-light tracking-tight text-white sm:text-5xl">
-          ✌️ Hi · 你好 · Salut · 今日は
+        <h1 className="text-3xl font-light leading-none text-white">
+          <span aria-hidden="true">✌️</span>
+          <span className="sr-only">Hi</span>
         </h1>
-        <p className="mt-6 max-w-2xl text-lg leading-8 text-blue-100/85">
-          I’m Cary “Cart” Wang, a developer from New York City with a love for
-          languages both computer and human. When not tinkering with code, I can
-          be found in the great outdoors.
+        <p className="mt-5 max-w-2xl text-base leading-7 text-white/90">
+          Hi · 你好 · Salut · 今日は. I’m Cary “Cart” Wang, a developer from New
+          York City with a love for languages both computer and human. When not
+          tinkering with code, I can be found in the great outdoors.
         </p>
 
-        <div className="mt-10 flex flex-wrap gap-3">
+        <div className="mt-8 flex flex-wrap gap-3">
           {socialLinks.map(({ label, href, Icon }) => (
             <a
               key={label}
@@ -52,7 +53,7 @@ export default function Home() {
               rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
               aria-label={label}
               title={label}
-              className="corner-frame corner-frame-sm flex h-11 w-11 items-center justify-center border border-blue-300/20 bg-blue-400/5 text-blue-100 transition hover:border-blue-300/50 hover:bg-blue-400/15 hover:text-white"
+              className="corner-frame corner-frame-sm flex h-11 w-11 items-center justify-center border border-blue-300/20 bg-blue-400/5 text-white/80 transition hover:border-blue-300/50 hover:bg-blue-400/15 hover:text-white"
             >
               <Icon className="h-5 w-5" />
             </a>
@@ -61,7 +62,7 @@ export default function Home() {
       </section>
 
       <section className="mt-24">
-        <h2 className="text-sm font-light uppercase tracking-widest text-blue-200/60">
+        <h2 className="text-sm font-light uppercase tracking-widest text-white/50">
           Writing
         </h2>
         <div className="mt-8">
