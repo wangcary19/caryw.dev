@@ -15,6 +15,7 @@
 html,
 body {
   min-height: 100%;
+  overflow-x: hidden;
 }
 
 html {
@@ -28,12 +29,125 @@ body {
     Consolas, monospace;
 }
 
-/* Full-screen dynamic background (see src/components/BlueHaze.tsx) */
-.blue-haze {
+/* Golden-ratio side buffers (left : right = φ ≈ 1.618) */
+.golden {
+  padding-left: clamp(1.5rem, 6.18vw, 8rem);
+  padding-right: clamp(1.5rem, 3.82vw, 5rem);
+}
+
+/* Holographic gel background (see src/components/BlueHaze.tsx) */
+.holo-bg {
   position: fixed;
   inset: 0;
   z-index: -10;
-  background: linear-gradient(180deg, #08111f 0%, #0d1c36 45%, #0a1830 100%);
+  overflow: hidden;
+  background: radial-gradient(
+    120% 120% at 50% 0%,
+    #0a1a3a 0%,
+    #060d1f 45%,
+    #04080f 100%
+  );
+}
+
+.holo-blobs {
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: screen;
+  animation: hue-shift 45s linear infinite;
+}
+
+.holo-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+}
+
+.blob-1 {
+  width: 55vw;
+  height: 55vw;
+  top: -15%;
+  left: -10%;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(59, 130, 246, 0.55),
+    rgba(59, 130, 246, 0) 70%
+  );
+  animation: drift-1 28s ease-in-out infinite;
+}
+
+.blob-2 {
+  width: 60vw;
+  height: 60vw;
+  bottom: -20%;
+  right: -10%;
+  background: radial-gradient(
+    circle at 60% 60%,
+    rgba(34, 211, 238, 0.45),
+    rgba(34, 211, 238, 0) 70%
+  );
+  animation: drift-2 36s ease-in-out infinite;
+}
+
+.blob-3 {
+  width: 50vw;
+  height: 50vw;
+  top: 30%;
+  left: 40%;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(139, 92, 246, 0.35),
+    rgba(139, 92, 246, 0) 70%
+  );
+  animation: drift-3 32s ease-in-out infinite;
+}
+
+@keyframes drift-1 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(10vw, 12vh) scale(1.15);
+  }
+  66% {
+    transform: translate(-4vw, 20vh) scale(0.92);
+  }
+}
+
+@keyframes drift-2 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-12vw, -10vh) scale(1.2);
+  }
+}
+
+@keyframes drift-3 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  50% {
+    transform: translate(6vw, -14vh) scale(1.1) rotate(20deg);
+  }
+}
+
+@keyframes hue-shift {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+  100% {
+    filter: hue-rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .holo-blobs,
+  .holo-blob {
+    animation: none;
+  }
 }
 
 /* Article / markdown typography */
@@ -107,26 +221,4 @@ body {
   border: none;
   border-top: 1px solid rgba(148, 184, 232, 0.2);
   margin: 2rem 0;
-}
-
-/* View / article transition animation */
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-view {
-  animation: fadeUp 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .animate-view {
-    animation: none;
-  }
 }
