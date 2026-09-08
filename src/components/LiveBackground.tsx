@@ -1,18 +1,15 @@
-import TopoCanvas from "./TopoCanvas";
-
 /**
- * Full-screen background: a WebGL topographic-map shader, with a high-res
- * glacier photo as the fallback when WebGL is unavailable.
- *
- * Photo fallback: "Svitjordbreen on Svalbard calving" — AWeith,
- * CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0),
- * via Wikimedia Commons. Served from /background.jpg (3840×2160).
+ * Holographic background: a dark base with drifting, hue-cycling color blobs.
+ * Pure CSS (see .holo-* styles in globals.css) — no WebGL, no per-pixel work.
  */
 export default function LiveBackground() {
   return (
-    <div className="live-bg" aria-hidden="true">
-      <div className="live-bg-image" />
-      <TopoCanvas className="live-bg-canvas" />
+    <div className="holo-bg" aria-hidden="true">
+      <div className="holo-blobs">
+        <div className="holo-blob blob-1" />
+        <div className="holo-blob blob-2" />
+        <div className="holo-blob blob-3" />
+      </div>
     </div>
   );
 }

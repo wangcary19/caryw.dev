@@ -71,37 +71,6 @@ export default function Home() {
       <section className="mt-10">
         <WritingSection posts={posts} />
       </section>
-
-      <footer className="mt-24 border-t border-white/10 pt-6 text-xs leading-6 text-white/40">
-        Background:{" "}
-        <a
-          href="https://commons.wikimedia.org/wiki/File:Svitjordbreen_on_Svalbard_calving.jpg"
-          className="text-blue-300 hover:text-blue-100"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          “Svitjordbreen on Svalbard calving”
-        </a>{" "}
-        by{" "}
-        <a
-          href="https://commons.wikimedia.org/wiki/User:AWeith"
-          className="text-blue-300 hover:text-blue-100"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          AWeith
-        </a>
-        ,{" "}
-        <a
-          href="https://creativecommons.org/licenses/by-sa/4.0/"
-          className="text-blue-300 hover:text-blue-100"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          CC BY-SA 4.0
-        </a>
-        , via Wikimedia Commons.
-      </footer>
     </main>
   );
 }

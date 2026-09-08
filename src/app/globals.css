@@ -35,29 +35,95 @@ body {
   padding-right: clamp(1.5rem, 3.82vw, 5rem);
 }
 
-/* WebGL topographic shader over a glacier-photo fallback */
-.live-bg {
+/* Holographic background (very slowly shifting blue/cyan/violet) */
+.holo-bg {
   position: fixed;
   inset: 0;
   z-index: -10;
   overflow: hidden;
-  background: linear-gradient(180deg, #081120 0%, #0c2038 50%, #071425 100%);
+  background: radial-gradient(120% 120% at 50% 0%, #0a1a3a 0%, #060d1f 45%, #04080f 100%);
 }
 
-.live-bg-image {
+.holo-blobs {
   position: absolute;
   inset: 0;
-  background-image: url("/background.jpg");
-  background-size: cover;
-  background-position: center;
+  mix-blend-mode: screen;
+  animation: hue-shift 120s linear infinite;
 }
 
-.live-bg-canvas {
+.holo-blob {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
+  border-radius: 50%;
+  filter: blur(80px);
+}
+
+.blob-1 {
+  width: 55vw;
+  height: 55vw;
+  top: -15%;
+  left: -10%;
+  background: radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.5), rgba(59, 130, 246, 0) 70%);
+  animation: drift-1 60s ease-in-out infinite;
+}
+
+.blob-2 {
+  width: 60vw;
+  height: 60vw;
+  bottom: -20%;
+  right: -10%;
+  background: radial-gradient(circle at 60% 60%, rgba(34, 211, 238, 0.42), rgba(34, 211, 238, 0) 70%);
+  animation: drift-2 75s ease-in-out infinite;
+}
+
+.blob-3 {
+  width: 50vw;
+  height: 50vw;
+  top: 30%;
+  left: 40%;
+  background: radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.32), rgba(139, 92, 246, 0) 70%);
+  animation: drift-3 65s ease-in-out infinite;
+}
+
+@keyframes drift-1 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(10vw, 12vh) scale(1.15);
+  }
+  66% {
+    transform: translate(-4vw, 20vh) scale(0.92);
+  }
+}
+
+@keyframes drift-2 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-12vw, -10vh) scale(1.2);
+  }
+}
+
+@keyframes drift-3 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  50% {
+    transform: translate(6vw, -14vh) scale(1.1) rotate(20deg);
+  }
+}
+
+@keyframes hue-shift {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+  100% {
+    filter: hue-rotate(360deg);
+  }
 }
 
 /* Square buttons with highlighted corners */
@@ -179,7 +245,9 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-article {
+  .animate-article,
+  .holo-blobs,
+  .holo-blob {
     animation: none;
   }
 }
