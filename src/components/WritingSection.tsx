@@ -57,7 +57,10 @@ export default function WritingSection({ posts }: { posts: Post[] }) {
       {/* Inline article, expanded to the right */}
       <div className="min-w-0 flex-1">
         {current ? (
-          <article key={current.slug} className="animate-article corner-frame border border-blue-300/20 bg-[#0c1a2f] p-6 sm:p-8">
+          <article
+            key={current.slug}
+            className="animate-article corner-frame border border-blue-300/20 bg-[#0c1a2f] p-6 sm:p-8"
+          >
             <div className="flex items-start justify-between gap-4">
               <h2 className="text-2xl font-light tracking-tight text-white sm:text-3xl">
                 {current.title}

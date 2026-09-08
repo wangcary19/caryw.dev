@@ -35,7 +35,7 @@ body {
   padding-right: clamp(1.5rem, 3.82vw, 5rem);
 }
 
-/* Live wallpaper background (4K image + slow Ken Burns) */
+/* Time-of-day "dynamic wallpaper" background (macOS-style) */
 .live-bg {
   position: fixed;
   inset: 0;
@@ -44,27 +44,70 @@ body {
   background: linear-gradient(180deg, #081120 0%, #0c2038 50%, #071425 100%);
 }
 
+.live-bg-scene {
+  position: absolute;
+  inset: 0;
+  transition: filter 0.7s ease, transform 0.7s ease;
+}
+
+.live-bg.is-active .live-bg-scene {
+  filter: blur(16px) brightness(0.5);
+  transform: scale(1.12);
+}
+
 .live-bg-image {
   position: absolute;
   inset: 0;
   background-image: url("/background.jpg");
   background-size: cover;
   background-position: center;
-  transition: filter 0.7s ease;
-  animation: kenburns 45s ease-in-out infinite alternate;
+  transition: filter 3s ease;
 }
 
-.live-bg.is-active .live-bg-image {
-  filter: blur(16px) brightness(0.5);
+.live-bg-tint {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 3s ease, background 3s ease;
 }
 
-@keyframes kenburns {
-  from {
-    transform: scale(1.05) translate(0, 0);
-  }
-  to {
-    transform: scale(1.16) translate(2%, -1.5%);
-  }
+/* Time-of-day grading */
+.live-bg.tod-night .live-bg-image {
+  filter: brightness(0.55) saturate(0.75);
+}
+.live-bg.tod-dawn .live-bg-image {
+  filter: brightness(0.95) saturate(1.1) sepia(0.15);
+}
+.live-bg.tod-day .live-bg-image {
+  filter: none;
+}
+.live-bg.tod-sunset .live-bg-image {
+  filter: brightness(0.95) saturate(1.2) sepia(0.25);
+}
+.live-bg.tod-dusk .live-bg-image {
+  filter: brightness(0.8) saturate(0.9);
+}
+
+/* Time-of-day tint overlays */
+.live-bg.tod-night .live-bg-tint {
+  opacity: 1;
+  background: linear-gradient(180deg, rgba(8, 14, 34, 0.72), rgba(3, 8, 20, 0.82));
+}
+.live-bg.tod-dawn .live-bg-tint {
+  opacity: 1;
+  background: linear-gradient(180deg, rgba(255, 150, 90, 0.22), rgba(150, 90, 170, 0.14));
+}
+.live-bg.tod-day .live-bg-tint {
+  opacity: 0;
+}
+.live-bg.tod-sunset .live-bg-tint {
+  opacity: 1;
+  background: linear-gradient(180deg, rgba(255, 120, 60, 0.28), rgba(180, 80, 130, 0.18));
+}
+.live-bg.tod-dusk .live-bg-tint {
+  opacity: 1;
+  background: linear-gradient(180deg, rgba(90, 60, 170, 0.3), rgba(35, 40, 110, 0.34));
 }
 
 /* Square buttons with highlighted corners */
@@ -186,8 +229,7 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-article,
-  .live-bg-image {
+  .animate-article {
     animation: none;
   }
 }
