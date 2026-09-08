@@ -18,6 +18,7 @@ uniform vec2 u_mouse;
 uniform float u_mouse_strength;
 uniform vec2 u_ripples[4];
 uniform float u_ripple_t[4];
+uniform sampler2D u_glyph;
 
 float hash(vec2 p) {
   return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
@@ -45,24 +46,58 @@ float fbm(vec2 p) {
   return v;
 }
 
-void main() {
-  vec2 p = gl_FragCoord.xy / u_res.y;
-  float t = u_time * 0.006;
+// static base field (no ambient drift)
+float baseField(vec2 p) {
+  vec2 q = vec2(fbm(p), fbm(p + vec2(5.2, 1.3)));
+  vec2 r = vec2(
+    fbm(p + 2.0 * q + vec2(1.7, 9.2)),
+    fbm(p + 2.0 * q + vec2(8.3, 2.8))
+  );
+  return fbm(p + 1.6 * r);
+}
 
-  // cursor displaces the field — contour lines move around the pointer
+// cursor displaces the field
+vec2 displace(vec2 p) {
   vec2 mdir = p - u_mouse;
   float mw = exp(-dot(mdir, mdir) * 5.0) * u_mouse_strength;
-  p += mdir * mw * 0.45;
+  return p + mdir * mw * 0.45;
+}
 
-  // flowing domain warp
-  vec2 q = vec2(fbm(p + t), fbm(p + vec2(5.2, 1.3) - t * 0.5));
-  vec2 r = vec2(
-    fbm(p + 2.0 * q + vec2(1.7, 9.2) + t * 0.2),
-    fbm(p + 2.0 * q + vec2(8.3, 2.8) - t * 0.15)
-  );
-  float h = fbm(p + 1.6 * r);
+float heightAt(vec2 p) {
+  return baseField(displace(p));
+}
 
-  // click ripples — expanding waves
+// sample a digit glyph (10 digits laid out in one row)
+float glyph(int d, vec2 uv) {
+  vec2 tc = vec2((float(d) + uv.x) / 10.0, uv.y);
+  return texture2D(u_glyph, tc).a;
+}
+
+// 2-digit number rendered in a label box (lu in [0,1] x [0,1])
+float number2(vec2 lu, int n) {
+  float digitsW = 0.7;
+  float dw = digitsW / 2.0;
+  float x0 = (1.0 - digitsW) / 2.0;
+  float gx = (lu.x - x0) / dw;
+  int di = int(floor(gx));
+  if (di < 0 || di > 1) return 0.0;
+  float du = fract(gx);
+
+  float y0 = 0.2;
+  float y1 = 0.8;
+  if (lu.y < y0 || lu.y > y1) return 0.0;
+  float dv = (lu.y - y0) / (y1 - y0);
+
+  int val = (di == 0) ? n / 10 : int(mod(float(n), 10.0));
+  return glyph(val, vec2(du, dv));
+}
+
+void main() {
+  vec2 p = gl_FragCoord.xy / u_res.y;
+
+  float h = heightAt(p);
+
+  // click ripples
   for (int i = 0; i < 4; i++) {
     float age = u_time - u_ripple_t[i];
     if (age > 0.0 && age < 8.0) {
@@ -71,29 +106,49 @@ void main() {
     }
   }
 
-  // relaxing blue palette (matches the site's navy + light-blue theme)
+  // blue palette (matches site theme)
   vec3 navy = vec3(0.04, 0.08, 0.15);
   vec3 steel = vec3(0.20, 0.38, 0.60);
   vec3 sky = vec3(0.48, 0.68, 0.95);
 
   vec3 elev = mix(steel, sky, smoothstep(0.0, 1.0, h));
 
-  // contour lines: thin intermediate + thicker index contours (every 5th)
+  // uniform-thickness contour lines
   float levels = 24.0;
-  float ci = h * levels;
-  float f = fract(ci);
-  float idx = floor(ci + 0.5);
-  float isIndex = 1.0 - step(0.5, mod(idx, 5.0));
-
-  float w = mix(0.008, 0.03, isIndex);
+  float f = fract(h * levels);
   float line = clamp(
-    smoothstep(w, 0.0, f) + smoothstep(w, 0.0, 1.0 - f),
+    smoothstep(0.008, 0.0, f) + smoothstep(0.008, 0.0, 1.0 - f),
     0.0,
     1.0
   );
 
   vec3 col = mix(navy, elev, 0.10);
-  col += sky * line * mix(0.4, 0.7, isIndex);
+  col += sky * line * 0.5;
+
+  // elevation labels on every 5th contour
+  float px = 1.0 / u_res.y;
+  float cs = 0.26;
+  vec2 cell = floor(p / cs);
+  vec2 cp = (cell + 0.5) * cs;
+  vec2 ldp = p - cp;
+  float halfW = 19.0 * px;
+  float halfH = 8.0 * px;
+  if (abs(ldp.x) < halfW && abs(ldp.y) < halfH) {
+    float hh = heightAt(cp);
+    float cci = hh * levels;
+    float nearest = floor(cci + 0.5);
+    float onLine = 1.0 - smoothstep(0.02, 0.12, abs(cci - nearest));
+    float isIndex = 1.0 - step(0.5, mod(nearest, 5.0));
+    if (onLine > 0.01 && isIndex > 0.5) {
+      int n = int(nearest * 4.0 + 0.5);
+      vec2 lu = vec2(
+        (ldp.x + halfW) / (2.0 * halfW),
+        (ldp.y + halfH) / (2.0 * halfH)
+      );
+      float cov = number2(lu, n);
+      col = mix(col, vec3(0.78, 0.87, 1.0), cov * 0.9);
+    }
+  }
 
   // soft vignette
   vec2 uv = gl_FragCoord.xy / u_res.xy;
@@ -106,10 +161,10 @@ void main() {
 const MAX_RIPPLES = 4;
 
 /**
- * Full-screen WebGL canvas rendering an animated blue topographic map.
- * The cursor pushes the surface, and taps on buttons/links send ripples
- * through it. If WebGL is unavailable the canvas stays transparent and the
- * parent's fallback (glacier photo) shows through.
+ * Full-screen WebGL canvas rendering a static blue topographic map. The field
+ * is frozen until the cursor passes through it (which displaces the contour
+ * lines); taps on buttons/links send ripples. Elevation labels are drawn on
+ * every 5th contour using a small digit glyph atlas.
  */
 export default function TopoCanvas({ className }: { className?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -172,6 +227,32 @@ export default function TopoCanvas({ className }: { className?: string }) {
     const uMouseStrength = gl.getUniformLocation(prog, "u_mouse_strength");
     const uRipples = gl.getUniformLocation(prog, "u_ripples");
     const uRippleT = gl.getUniformLocation(prog, "u_ripple_t");
+    const uGlyph = gl.getUniformLocation(prog, "u_glyph");
+
+    // digit glyph atlas (0-9, one row)
+    const atlas = document.createElement("canvas");
+    atlas.width = 200;
+    atlas.height = 20;
+    const actx = atlas.getContext("2d");
+    if (actx) {
+      actx.fillStyle = "#ffffff";
+      actx.font = "bold 16px 'Courier New', monospace";
+      actx.textAlign = "center";
+      actx.textBaseline = "middle";
+      for (let i = 0; i < 10; i++) {
+        actx.fillText(String(i), i * 20 + 10, 10);
+      }
+    }
+    const glyphTex = gl.createTexture();
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, glyphTex);
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, atlas);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.uniform1i(uGlyph, 0);
 
     const reduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
@@ -196,7 +277,6 @@ export default function TopoCanvas({ className }: { className?: string }) {
       strength = 1.0;
     };
 
-    // ripples on button/link taps
     const ripples: { x: number; y: number; start: number }[] = [];
     const onPointerDown = (e: PointerEvent) => {
       const t = e.target as Element | null;
@@ -224,7 +304,6 @@ export default function TopoCanvas({ className }: { className?: string }) {
     resize();
     window.addEventListener("resize", resize);
 
-    // initial cursor center
     {
       const pt = toShaderPoint(canvas.clientWidth / 2, canvas.clientHeight / 2);
       targetX = mouseX = pt.x;
@@ -236,7 +315,6 @@ export default function TopoCanvas({ className }: { className?: string }) {
     const frame = (now: number) => {
       const t = (now - start) / 1000;
 
-      // smooth the cursor toward its target, decay the impact
       mouseX += (targetX - mouseX) * 0.1;
       mouseY += (targetY - mouseY) * 0.1;
       strength *= 0.97;
@@ -251,7 +329,7 @@ export default function TopoCanvas({ className }: { className?: string }) {
         } else {
           rPos[i * 2] = 0;
           rPos[i * 2 + 1] = 0;
-          rTime[i] = 1e6; // future → skipped in shader
+          rTime[i] = 1e6;
         }
       }
 
@@ -261,7 +339,7 @@ export default function TopoCanvas({ className }: { className?: string }) {
       gl.uniform2fv(uRipples, rPos);
       gl.uniform1fv(uRippleT, rTime);
 
-      gl.clearColor(0.02, 0.04, 0.09, 1);
+      gl.clearColor(0.04, 0.08, 0.15, 1);
       gl.clear(gl.COLOR_BUFFER_BIT);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
 
@@ -278,6 +356,7 @@ export default function TopoCanvas({ className }: { className?: string }) {
       gl.deleteShader(vs);
       gl.deleteShader(fs);
       gl.deleteBuffer(buf);
+      gl.deleteTexture(glyphTex);
     };
   }, []);
 

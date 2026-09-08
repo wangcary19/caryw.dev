@@ -44,17 +44,6 @@ body {
   background: linear-gradient(180deg, #081120 0%, #0c2038 50%, #071425 100%);
 }
 
-.live-bg-scene {
-  position: absolute;
-  inset: 0;
-  transition: filter 0.7s ease, transform 0.7s ease;
-}
-
-.live-bg.is-active .live-bg-scene {
-  filter: blur(16px) brightness(0.5);
-  transform: scale(1.12);
-}
-
 .live-bg-image {
   position: absolute;
   inset: 0;
