@@ -22,7 +22,14 @@ export default function MinecartEasterEgg() {
           {/* open-top interior */}
           <rect x="2" y="4" width="11" height="1" fill="#3a3a3a" />
           {/* outline */}
-          <rect x="1" y="4" width="13" height="5" fill="none" stroke="#2f2f2f" />
+          <rect
+            x="1"
+            y="4"
+            width="13"
+            height="5"
+            fill="none"
+            stroke="#2f2f2f"
+          />
           {/* front scoop */}
           <path d="M14 4 L16 2 L16 4 Z" fill="#787878" />
           <path d="M14 4 L16 2 L16 4 Z" fill="none" stroke="#2f2f2f" />
