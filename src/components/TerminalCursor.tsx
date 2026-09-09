@@ -3,7 +3,10 @@
 import { useEffect, useRef } from "react";
 
 type DocWithCaret = Document & {
-  caretPositionFromPoint?: (x: number, y: number) => {
+  caretPositionFromPoint?: (
+    x: number,
+    y: number,
+  ) => {
     offsetNode: Node;
     offset: number;
   } | null;
@@ -39,8 +42,8 @@ export default function TerminalCursor() {
       }
 
       if (rect) {
-        el.style.left = `${rect.left}px`;
-        el.style.top = `${rect.top}px`;
+        el.style.left = `${rect.left + window.scrollX}px`;
+        el.style.top = `${rect.top + window.scrollY}px`;
         el.style.height = `${rect.height}px`;
         el.style.width = `${Math.max(4, rect.height * 0.6)}px`;
         el.classList.add("is-visible");

@@ -246,7 +246,7 @@ body {
 
 /* Blinking terminal cursor marking the last-clicked text position */
 .terminal-cursor {
-  position: fixed;
+  position: absolute;
   left: 0;
   top: 0;
   width: 8px;
