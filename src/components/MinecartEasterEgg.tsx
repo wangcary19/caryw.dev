@@ -7,19 +7,25 @@ export default function MinecartEasterEgg() {
     <div className="minecart-scene" aria-hidden="true">
       <div className="minecart-rails" />
       <div className="minecart">
-        <svg viewBox="0 0 48 24" width="48" height="24">
+        <svg
+          viewBox="0 0 16 12"
+          width="24"
+          height="18"
+          shapeRendering="crispEdges"
+        >
           {/* wheels */}
-          <circle cx="12" cy="19" r="4.5" fill="#2f2f2f" />
-          <circle cx="36" cy="19" r="4.5" fill="#2f2f2f" />
-          <circle cx="12" cy="19" r="1.8" fill="#8a8a8a" />
-          <circle cx="36" cy="19" r="1.8" fill="#8a8a8a" />
+          <rect x="3" y="9" width="2" height="2" fill="#1c1c1c" />
+          <rect x="11" y="9" width="2" height="2" fill="#1c1c1c" />
           {/* cart body */}
-          <rect x="4" y="8" width="36" height="8" fill="#717171" />
-          <rect x="4" y="8" width="36" height="3" fill="#8f8f8f" />
-          <rect x="4" y="8" width="36" height="8" fill="none" stroke="#3a3a3a" strokeWidth="1" />
+          <rect x="1" y="4" width="13" height="5" fill="#787878" />
+          <rect x="1" y="4" width="13" height="2" fill="#8d8d8d" />
+          {/* open-top interior */}
+          <rect x="2" y="4" width="11" height="1" fill="#3a3a3a" />
+          {/* outline */}
+          <rect x="1" y="4" width="13" height="5" fill="none" stroke="#2f2f2f" />
           {/* front scoop */}
-          <path d="M40 8 L48 5 L48 8 Z" fill="#5f5f5f" />
-          <path d="M40 8 L48 5 L48 8 Z" fill="none" stroke="#3a3a3a" strokeWidth="1" />
+          <path d="M14 4 L16 2 L16 4 Z" fill="#787878" />
+          <path d="M14 4 L16 2 L16 4 Z" fill="none" stroke="#2f2f2f" />
         </svg>
       </div>
     </div>

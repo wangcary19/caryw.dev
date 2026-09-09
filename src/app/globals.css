@@ -248,8 +248,9 @@ body {
 .terminal-cursor {
   display: inline-block;
   width: 0.55em;
-  height: 1em;
+  height: 0.7em;
   margin-left: 0.12em;
+  vertical-align: baseline;
   background: #8cc6ff;
   box-shadow: 0 0 8px rgba(140, 198, 255, 0.6);
   animation: cursor-blink 1.1s steps(1) infinite;
@@ -281,8 +282,8 @@ body {
   bottom: 0;
   height: 15px;
   background:
-    linear-gradient(#b6bfc9, #b6bfc9) 0 12px / 100% 3px no-repeat,
-    repeating-linear-gradient(90deg, #7a5230 0 4px, transparent 4px 16px) 0 0 / 100% 12px no-repeat;
+    linear-gradient(#b6bfc9, #b6bfc9) 0 12px / 100% 1px no-repeat,
+    repeating-linear-gradient(90deg, #7a5230 0 2px, transparent 2px 14px) 0 0 / 100% 12px no-repeat;
 }
 
 .minecart {
