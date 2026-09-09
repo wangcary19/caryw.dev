@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import LiveBackground from "@/components/LiveBackground";
-import TerminalCursor from "@/components/TerminalCursor";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -29,7 +28,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-screen">
         <LiveBackground />
         {children}
-        <TerminalCursor />
       </body>
     </html>
   );

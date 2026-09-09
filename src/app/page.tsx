@@ -48,6 +48,7 @@ export default function Home() {
           Hi · 你好 · Salut · 今日は. I’m Cary “Cart” Wang, a developer from New
           York City with a love for languages both computer and human. When not
           tinkering with code, I can be found in the great outdoors.
+          <span className="terminal-cursor" aria-hidden="true" />
         </p>
 
         <div className="mt-8 flex flex-wrap gap-3">
