@@ -6,6 +6,8 @@ import {
   LinkedInIcon,
   SubstackIcon,
   DownloadIcon,
+  InstagramIcon,
+  SoundCloudIcon,
 } from "@/components/icons";
 import type { IconProps } from "@/components/icons";
 
@@ -25,6 +27,16 @@ const links: {
     label: "Substack",
     href: "https://wangcary.substack.com/",
     Icon: SubstackIcon,
+  },
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/caryw_/",
+    Icon: InstagramIcon,
+  },
+  {
+    label: "SoundCloud",
+    href: "https://soundcloud.com/cart_tracks",
+    Icon: SoundCloudIcon,
   },
   {
     label: "Resume",

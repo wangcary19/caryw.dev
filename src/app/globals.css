@@ -267,39 +267,6 @@ body {
   }
 }
 
-/* Minecraft minecart easter egg */
-.minecart-scene {
-  position: relative;
-  height: 32px;
-  overflow: hidden;
-  margin-bottom: 1rem;
-}
-
-.minecart-rails {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 8px;
-  height: 1px;
-  background: #7a828a;
-}
-
-.minecart {
-  position: absolute;
-  bottom: 8px;
-  left: -48px;
-  animation: minecart-ride 6s linear forwards;
-}
-
-@keyframes minecart-ride {
-  from {
-    left: -48px;
-  }
-  to {
-    left: 100%;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .animate-article,
   .holo-blobs,
@@ -308,10 +275,6 @@ body {
   }
 
   .terminal-cursor {
-    animation: none;
-  }
-
-  .minecart {
     animation: none;
   }
 }
