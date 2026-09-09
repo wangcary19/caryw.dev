@@ -4,6 +4,7 @@ import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import type { Post } from "@/lib/types";
 import { formatDate } from "@/lib/types";
+import MinecartEasterEgg from "./MinecartEasterEgg";
 
 export default function WritingSection({ posts }: { posts: Post[] }) {
   const [current, setCurrent] = useState<Post | null>(null);
@@ -61,6 +62,7 @@ export default function WritingSection({ posts }: { posts: Post[] }) {
             key={current.slug}
             className="animate-article corner-frame border border-blue-300/20 bg-[#0c1a2f] p-6 sm:p-8"
           >
+            <MinecartEasterEgg />
             <div className="flex items-start justify-between gap-4">
               <h2 className="text-2xl font-light tracking-tight text-white sm:text-3xl">
                 {current.title}
