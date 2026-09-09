@@ -155,7 +155,7 @@ body {
   --corner-size: 7px;
 }
 
-/* Profile icon buttons — slow holographic pink (CS:GO Fade) hover + tooltip */
+/* Profile icon buttons — blue highlight matching the reading cards + tooltip */
 .profile-link {
   position: relative;
   border: 1px solid rgba(148, 184, 232, 0.2);
@@ -164,23 +164,13 @@ body {
   transition:
     border-color 0.6s ease,
     background-color 0.6s ease,
-    box-shadow 0.6s ease,
     color 0.6s ease;
 }
 
 .profile-link:hover {
-  border-color: rgba(244, 114, 182, 0.6);
-  background-color: rgba(236, 72, 153, 0.35);
-  background-image: linear-gradient(
-    135deg,
-    rgba(236, 72, 153, 0.4),
-    rgba(168, 85, 247, 0.35)
-  );
-  box-shadow:
-    0 0 20px rgba(244, 114, 182, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border-color: rgba(147, 197, 253, 0.5);
+  background-color: #0c1a2f;
   color: #ffffff;
-  --corner-color: rgba(244, 114, 182, 0.9);
 }
 
 .profile-link::after {
@@ -300,8 +290,8 @@ body {
 .terminal-cursor {
   display: inline-block;
   width: 0.55em;
-  height: 0.72em;
-  height: 1cap;
+  height: calc(0.72em + 2px);
+  height: calc(1cap + 2px);
   margin-left: 0.12em;
   vertical-align: baseline;
   background: #8cc6ff;
