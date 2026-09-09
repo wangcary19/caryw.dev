@@ -29,14 +29,13 @@ function CheckIcon({ className }: IconProps) {
 }
 
 const linkClass =
-  "corner-frame corner-frame-sm flex h-11 w-11 items-center justify-center border border-blue-300/20 bg-blue-400/5 text-white/80 transition hover:border-blue-300/50 hover:bg-[#0c1a2f] hover:text-white";
+  "corner-frame corner-frame-sm profile-link flex h-11 w-11 items-center justify-center";
 
 async function copyText(text: string) {
   if (navigator.clipboard?.writeText) {
     await navigator.clipboard.writeText(text);
     return;
   }
-  // fallback for older/insecure contexts
   const ta = document.createElement("textarea");
   ta.value = text;
   ta.style.position = "fixed";
@@ -66,7 +65,7 @@ export default function ProfileButtons() {
         type="button"
         onClick={copyEmail}
         aria-label={copied ? "Email copied" : "Copy email address"}
-        title={copied ? "Copied!" : "Copy email"}
+        data-label={copied ? "Copied!" : "Email"}
         className={linkClass}
       >
         {copied ? (
@@ -81,7 +80,7 @@ export default function ProfileButtons() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="GitHub"
-        title="GitHub"
+        data-label="GitHub"
         className={linkClass}
       >
         <GitHubIcon className="h-5 w-5" />
@@ -92,7 +91,7 @@ export default function ProfileButtons() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="LinkedIn"
-        title="LinkedIn"
+        data-label="LinkedIn"
         className={linkClass}
       >
         <LinkedInIcon className="h-5 w-5" />
@@ -102,7 +101,7 @@ export default function ProfileButtons() {
         href="/resume.pdf"
         download="Cary-Wang-Resume.pdf"
         aria-label="Resume"
-        title="Resume"
+        data-label="Resume"
         className={linkClass}
       >
         <DownloadIcon className="h-5 w-5" />
@@ -113,7 +112,7 @@ export default function ProfileButtons() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Substack"
-        title="Substack"
+        data-label="Substack"
         className={linkClass}
       >
         <SubstackIcon className="h-5 w-5" />
@@ -124,7 +123,7 @@ export default function ProfileButtons() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Instagram"
-        title="Instagram"
+        data-label="Instagram"
         className={linkClass}
       >
         <InstagramIcon className="h-5 w-5" />
@@ -135,7 +134,7 @@ export default function ProfileButtons() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="SoundCloud"
-        title="SoundCloud"
+        data-label="SoundCloud"
         className={linkClass}
       >
         <SoundCloudIcon className="h-5 w-5" />
