@@ -13,9 +13,10 @@ export default function Home() {
           <span className="sr-only">Hi</span>
         </h1>
         <p className="mt-5 max-w-2xl text-base leading-7 text-white/90">
-          Hi · 你好 · Salut · 今日は. I’m Cary “Cart” Wang, a developer based in NYC
-          with a love for languages both computer and human. When not tinkering
-          with code, I’m in the great outdoors, making music, or writing poems.
+          Hi · 你好 · Salut · 今日は. I’m Cary “Cart” Wang, a developer based in
+          NYC with a love for languages both computer and human. When not
+          tinkering with code, I’m in the great outdoors, making music, or
+          writing poems.
           <span className="terminal-cursor" aria-hidden="true" />
         </p>
 

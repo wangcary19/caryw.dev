@@ -28,11 +28,3 @@ export function getAllPosts(): Post[] {
     .map((f) => readPost(f.replace(/\.md$/, "")))
     .sort((a, b) => (a.date < b.date ? 1 : -1));
 }
-
-export function getPost(slug: string): Post | undefined {
-  try {
-    return readPost(slug);
-  } catch {
-    return undefined;
-  }
-}
